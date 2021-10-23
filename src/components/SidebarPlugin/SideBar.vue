@@ -114,7 +114,7 @@ export default {
   props: {
     logo: {
       type: String,
-      default: "http://localhost:8080/img/brand/icon/favicon-96x96.png",
+      default: "http://safir-be.test/img/brand/icon/favicon-96x96.png",
       description: "Safir",
     },
     autoClose: {

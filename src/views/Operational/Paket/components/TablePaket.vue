@@ -13,9 +13,10 @@
           <th>Kode</th>
           <th>Nama Paket</th>
           <th>Musim</th>
+          <th>Status</th>
           <th>Tanggal</th>
-          <th>Target Hotel</th>
-          <th>Target Maskapai</th>
+          <!-- <th>Target Hotel</th>
+          <th>Target Maskapai</th> -->
           <th></th>
         </template>
 
@@ -29,16 +30,42 @@
           <td class="">
             {{ row.item.season }}
           </td>
+          <td class="mx-auto">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              v-if="row.item.status == 'process'"
+            >
+              {{ row.item.status }}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              v-else-if="row.item.status == 'canceled'"
+            >
+              {{ row.item.status }}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-success"
+              v-else-if="row.item.status == 'done'"
+            >
+              {{ row.item.status }}
+            </button>
+            <!-- <span>{{row.item.status}}</span> -->
+          </td>
           <td class="">
             {{ row.item.start_date }} |
             {{ row.item.end_date }}
           </td>
-          <td class="">
+          <!-- <td class="">
             {{ row.item.hotel.name }}
           </td>
           <td class="">
             {{ row.item.airlines.nama }}
-          </td>
+          </td> -->
 
           <td class="text-right">
             <div

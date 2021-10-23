@@ -24,6 +24,20 @@
         />
         <sidebar-item
           :link="{
+            name: 'Transaksi',
+            icon: 'ni ni-money-coins text-teal',
+            path: '/operasional/transaksi',
+          }"
+        />
+        <sidebar-item
+          :link="{
+            name: 'Inventaris',
+            icon: 'ni ni-archive-2 text-red',
+            path: '/operasional/inventaris',
+          }"
+        />
+        <!-- <sidebar-item
+          :link="{
             name: 'Icons',
             icon: 'ni ni-planet text-blue',
             path: '/icons',
@@ -63,7 +77,7 @@
             icon: 'ni ni-circle-08 text-pink',
             path: '/register',
           }"
-        />
+        /> -->
         <!--Heading-->
         <h6 class="navbar-heading text-muted px-4">Settings</h6>
         <sidebar-item

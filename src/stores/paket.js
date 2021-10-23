@@ -52,7 +52,8 @@ const mutations = {
     };
   },
 };
-
+/*
+*/
 const actions = {
   getPackages({ commit, state }, payload) {
     let search = typeof payload != "undefined" ? payload : "";
@@ -80,7 +81,6 @@ const actions = {
           });
         })
         .catch((error) => {
-          console.log(error.response);
           if (!error.response.meta.status) {
             commit("SET_ERRORS", error.response.data.meta.message),
               {

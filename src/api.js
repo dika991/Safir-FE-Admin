@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const $axios = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/admin",
+  baseURL: "http://safir-be.test/api/admin",
   headers: {
     Authorization:
       localStorage.getItem("token") !== "null"
