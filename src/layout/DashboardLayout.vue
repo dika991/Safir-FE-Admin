@@ -24,9 +24,16 @@
         />
         <sidebar-item
           :link="{
-            name: 'Transaksi',
+            name: 'Verifikasi',
             icon: 'ni ni-money-coins text-teal',
             path: '/operasional/transaksi',
+          }"
+        />
+        <sidebar-item
+          :link="{
+            name: 'Pemesanan',
+            icon: 'fas fa-book-open text-orange',
+            path: '/operasional/pemesanan',
           }"
         />
         <sidebar-item
@@ -34,6 +41,13 @@
             name: 'Inventaris',
             icon: 'ni ni-archive-2 text-red',
             path: '/operasional/inventaris',
+          }"
+        />
+        <sidebar-item v-if="name.role == 0" 
+        :link="{
+            name: 'Admin',
+            icon: 'fas fa-users text-info',
+            path: '/operasional/admin',
           }"
         />
         <!-- <sidebar-item
@@ -115,6 +129,11 @@ export default {
   components: {
     DashboardNavbar,
     ContentFooter,
+  },
+  computed: {
+    name() {
+      return this.$store.getters.user;
+    },
   },
   data() {
     return {

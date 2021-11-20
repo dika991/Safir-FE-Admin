@@ -17,6 +17,7 @@ const actions = {
             let user = {
               name: response.data.data.name,
               email: response.data.data.email,
+              role: response.data.data.roles,
             };
             localStorage.setItem("user", JSON.stringify(user));
             commit("SET_USER", user, { root: true });
@@ -44,6 +45,19 @@ const actions = {
             );
           }
         });
+    });
+  },
+  remove({ commit }) {
+    return new Promise((resolve) => {
+      $axios.post(`/logout`).then((response) => {
+        if (response.data.meta.status) {
+          commit("SET_TOKEN", null, { root: true });
+          localStorage.removeItem("user");
+          commit("SET_USER", null, { root: true });
+          localStorage.removeItem("token");
+        }
+        resolve(response.data);
+      });
     });
   },
 };

@@ -7,7 +7,7 @@ import AuthLayout from "@/layout/AuthLayout";
 import Dashboard from "../views/Dashboard.vue";
 import Icons from "../views/Icons.vue";
 import Maps from "../views/Maps.vue";
-import Profile from "../views/UserProfile.vue";
+import NewProfile from "../views/NewProfile.vue";
 import Tables from "../views/Tables.vue";
 
 import Login from "../views/Login.vue";
@@ -29,6 +29,20 @@ import Paket from "../views/Operational/Paket/Paket.vue";
 import DetailPaket from "../views/Operational/Paket/Layout.vue";
 import AddPaket from "../views/Operational/Paket/Add.vue";
 import EditPaket from "../views/Operational/Paket/Edit.vue";
+
+import IndexTransaksi from "../views/Operational/transaksi/Index.vue";
+import Transaksi from "../views/Operational/transaksi/Transaksi.vue";
+// import DetailTransaksi from "../views/Operational/transaksi/Detail.vue";
+
+import IndexPemesanan from "../views/Operational/pemesanan/Index.vue";
+import Pemesanan from "../views/Operational/pemesanan/Pemesanan.vue";
+import DetailPemesanan from "../views/Operational/pemesanan/Detail.vue";
+
+import IndexInventaris from "../views/Operational/inventaris/Index.vue";
+import Inventaris from "../views/Operational/inventaris/Inventaris.vue";
+
+import indexAdmin from "../views/Admin/Index.vue";
+import Admin from "../views/Admin/Admin.vue";
 
 const routes = [
   {
@@ -58,13 +72,6 @@ const routes = [
         name: "maps",
         components: {
           default: Maps,
-        },
-      },
-      {
-        path: "/profile",
-        name: "profile",
-        components: {
-          default: Profile,
         },
       },
       {
@@ -122,6 +129,94 @@ const routes = [
           },
         ],
       },
+      {
+        path: "transaksi",
+        component: IndexTransaksi,
+        children: [
+          {
+            path: "",
+            name: "Transaksi",
+            component: Transaksi,
+            meta: {
+              title: "Manajemen Transaksi",
+            },
+          },
+          // {
+          //   path: "create",
+          //   name: "Tambah Paket",
+          //   component: AddPaket,
+          //   meta: {
+          //     title: "Tambah Paket",
+          //   },
+          // },
+          // {
+          //   path: "detail/:id",
+          //   name: "Detail Paket",
+          //   component: DetailPaket,
+          //   meta: {
+          //     title: "Detail Paket",
+          //   },
+          // },
+          // {
+          //   path: "edit/:id",
+          //   name: "Edit Paket",
+          //   component: EditPaket,
+          //   meta: {
+          //     title: "Edit Paket",
+          //   },
+          // },
+        ],
+      },
+      {
+        path: "pemesanan",
+        component: IndexPemesanan,
+        children: [
+          {
+            path: "",
+            name: "Pemesanan",
+            component: Pemesanan,
+            meta: {
+              title: "Manajemen Pemesanan",
+            },
+          },
+          {
+            path: "detail/:id",
+            name: "Detail Pemesanan",
+            component: DetailPemesanan,
+            meta: {
+              title: "Detail Pemesanan",
+            },
+          },
+        ],
+      },
+      {
+        path: "inventaris",
+        component: IndexInventaris,
+        children: [
+          {
+            path: "",
+            name: "Inventaris",
+            component: Inventaris,
+            meta: {
+              title: "Manajemen Inventaris",
+            },
+          },
+        ],
+      },
+      {
+        path: "admin",
+        component: indexAdmin,
+        children: [
+          {
+            path: "",
+            name: "Admin",
+            component: Admin,
+            meta: {
+              title: "Manajemen User Admin",
+            },
+          },
+        ],
+      },
     ],
   },
   {
@@ -159,6 +254,13 @@ const routes = [
             },
           },
         ],
+      },
+      {
+        path: "/settings/profile",
+        name: "profile",
+        components: {
+          default: NewProfile,
+        },
       },
     ],
   },

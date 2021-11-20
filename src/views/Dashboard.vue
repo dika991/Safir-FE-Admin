@@ -4,165 +4,84 @@
       <div class="row">
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Total traffic"
+            title="Total Jemaah Aktif"
             type="gradient-red"
-            sub-title="350,897"
-            icon="ni ni-active-40"
+            :sub-title="card.jemaahAkt"
+            icon="ni ni-single-02"
             class="mb-4 mb-xl-0"
           >
-            <template v-slot:footer>
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 3.48%
-              </span>
-              <span class="text-nowrap">Since last month</span>
-            </template>
           </stats-card>
         </div>
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Total traffic"
+            title="Total Paket Aktif"
             type="gradient-orange"
-            sub-title="2,356"
+            :sub-title="card.totalPaket"
             icon="ni ni-chart-pie-35"
             class="mb-4 mb-xl-0"
           >
-            <template v-slot:footer>
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 12.18%
-              </span>
-              <span class="text-nowrap">Since last month</span>
-            </template>
           </stats-card>
         </div>
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Sales"
+            title="Total Pembayaran"
             type="gradient-green"
-            sub-title="924"
             icon="ni ni-money-coins"
             class="mb-4 mb-xl-0"
           >
             <template v-slot:footer>
-              <span class="text-danger mr-2">
-                <i class="fa fa-arrow-down"></i> 5.72%
-              </span>
-              <span class="text-nowrap">Since last month</span>
+              <span class="mr-2">{{reformatCurrency(card.totalTransaksi)}} </span>
             </template>
           </stats-card>
         </div>
         <div class="col-xl-3 col-lg-6">
           <stats-card
-            title="Performance"
+            title="Belum Verifikasi"
             type="gradient-info"
-            sub-title="49,65%"
             icon="ni ni-chart-bar-32"
             class="mb-4 mb-xl-0"
           >
             <template v-slot:footer>
-              <span class="text-success mr-2">
-                <i class="fa fa-arrow-up"></i> 54.8%
-              </span>
-              <span class="text-nowrap">Since last month</span>
+              <span class="mr-2">{{card.tagihan}} </span>
             </template>
           </stats-card>
         </div>
       </div>
     </base-header>
 
-    <div class="container-fluid mt--7">
-      <!--Charts-->
-      <div class="row">
-        <div class="col-xl-8 mb-5 mb-xl-0">
-          <card type="default" header-classes="bg-transparent">
-            <template v-slot:header>
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                  <h5 class="h3 text-white mb-0">Sales value</h5>
-                </div>
-                <div class="col">
-                  <ul class="nav nav-pills justify-content-end">
-                    <li class="nav-item mr-2 mr-md-0">
-                      <a
-                        class="nav-link py-2 px-3"
-                        href="#"
-                        :class="{ active: bigLineChart.activeIndex === 0 }"
-                        @click.prevent="initBigChart(0)"
-                      >
-                        <span class="d-none d-md-block">Month</span>
-                        <span class="d-md-none">M</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        class="nav-link py-2 px-3"
-                        href="#"
-                        :class="{ active: bigLineChart.activeIndex === 1 }"
-                        @click.prevent="initBigChart(1)"
-                      >
-                        <span class="d-none d-md-block">Week</span>
-                        <span class="d-md-none">W</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </template>
-            <div class="chart-area">
-              <canvas :height="350" :id="salesChartID"></canvas>
-            </div>
-          </card>
-        </div>
-
-        <div class="col-xl-4">
-          <card header-classes="bg-transparent">
-            <template v-slot:header>
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="text-uppercase text-muted ls-1 mb-1">
-                    Performance
-                  </h6>
-                  <h5 class="h3 mb-0">Total orders</h5>
-                </div>
-              </div>
-            </template>
-            <div class="chart-area">
-              <canvas :height="350" :id="ordersChartID"></canvas>
-            </div>
-          </card>
-        </div>
-      </div>
-      <!-- End charts-->
-
-      <!--Tables-->
+    <!-- <div class="container-fluid mt--7">
       <div class="row mt-5">
         <div class="col-xl-8 mb-5 mb-xl-0">
-          <page-visits-table></page-visits-table>
-        </div>
-        <div class="col-xl-4">
-          <social-traffic-table></social-traffic-table>
+          <tabel-belum-verifikasi></tabel-belum-verifikasi>
         </div>
       </div>
-      <!--End tables-->
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
+const formatter = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  minimumFractionDigits: 0,
+});
 // Charts
-import { ordersChart } from "@/components/Charts/Chart";
+// import { ordersChart } from "@/components/Charts/Chart";
 import Chart from "chart.js";
+import $axios from "../api";
 
-import PageVisitsTable from "./Dashboard/PageVisitsTable";
-import SocialTrafficTable from "./Dashboard/SocialTrafficTable";
+// import TabelBelumVerifikasi from "./Tables/TabelBelumVerifikasi.vue";
 let chart;
 
 export default {
-  components: {
-    PageVisitsTable,
-    SocialTrafficTable,
-  },
+  // components: { TabelBelumVerifikasi },
   data() {
     return {
+      card: {
+        jemaahAkt: 0,
+        totalPaket: 0,
+        totalTransaksi: 0,
+        tagihan: 0
+      },
       salesChartID: "salesChart",
       ordersChartID: "ordersChart",
       bigLineChart: {
@@ -248,79 +167,94 @@ export default {
       );
       this.bigLineChart.activeIndex = index;
     },
+    initDashboard() {
+      $axios.get(`/dashboard`).then((response) => {
+        console.log( this.card);
+        this.card.jemaahAkt = response.data.data.jemaahAkt;
+        this.card.tagihan = response.data.data.tagihan;
+        this.card.totalPaket = response.data.data.totalPaket;
+        this.card.totalTransaksi = response.data.data.totalTransaksi;
+      });
+    },
+    reformatCurrency(nominal) {
+      return formatter.format(nominal);
+    },
   },
   mounted() {
-    chart = new Chart(
-      document.getElementById(this.salesChartID).getContext("2d"),
-      {
-        type: "line",
-        data: {
-          labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          datasets: [
-            {
-              label: "Performance",
-              tension: 0.4,
-              borderWidth: 4,
-              borderColor: "#5e72e4",
-              pointRadius: 0,
-              backgroundColor: "transparent",
-              data: this.bigLineChart.allData[1],
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          legend: {
-            display: false,
-          },
-          tooltips: {
-            enabled: true,
-            mode: "index",
-            intersect: false,
-          },
-          scales: {
-            yAxes: [
-              {
-                barPercentage: 1.6,
-                gridLines: {
-                  drawBorder: false,
-                  color: "rgba(29,140,248,0.0)",
-                  zeroLineColor: "transparent",
-                },
-                ticks: {
-                  padding: 0,
-                  fontColor: "#8898aa",
-                  fontSize: 13,
-                  fontFamily: "Open Sans",
-                },
-              },
-            ],
-            xAxes: [
-              {
-                barPercentage: 1.6,
-                gridLines: {
-                  drawBorder: false,
-                  color: "rgba(29,140,248,0.0)",
-                  zeroLineColor: "transparent",
-                },
-                ticks: {
-                  padding: 10,
-                  fontColor: "#8898aa",
-                  fontSize: 13,
-                  fontFamily: "Open Sans",
-                },
-              },
-            ],
-          },
-          layout: {
-            padding: 0,
-          },
-        },
-      }
-    );
-    ordersChart.createChart(this.ordersChartID);
+    // chart = new Chart(
+    //   document.getElementById(this.salesChartID).getContext("2d"),
+    //   {
+    //     type: "line",
+    //     data: {
+    //       labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    //       datasets: [
+    //         {
+    //           label: "Performance",
+    //           tension: 0.4,
+    //           borderWidth: 4,
+    //           borderColor: "#5e72e4",
+    //           pointRadius: 0,
+    //           backgroundColor: "transparent",
+    //           data: this.bigLineChart.allData[1],
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       responsive: true,
+    //       maintainAspectRatio: false,
+    //       legend: {
+    //         display: false,
+    //       },
+    //       tooltips: {
+    //         enabled: true,
+    //         mode: "index",
+    //         intersect: false,
+    //       },
+    //       scales: {
+    //         yAxes: [
+    //           {
+    //             barPercentage: 1.6,
+    //             gridLines: {
+    //               drawBorder: false,
+    //               color: "rgba(29,140,248,0.0)",
+    //               zeroLineColor: "transparent",
+    //             },
+    //             ticks: {
+    //               padding: 0,
+    //               fontColor: "#8898aa",
+    //               fontSize: 13,
+    //               fontFamily: "Open Sans",
+    //             },
+    //           },
+    //         ],
+    //         xAxes: [
+    //           {
+    //             barPercentage: 1.6,
+    //             gridLines: {
+    //               drawBorder: false,
+    //               color: "rgba(29,140,248,0.0)",
+    //               zeroLineColor: "transparent",
+    //             },
+    //             ticks: {
+    //               padding: 10,
+    //               fontColor: "#8898aa",
+    //               fontSize: 13,
+    //               fontFamily: "Open Sans",
+    //             },
+    //           },
+    //         ],
+    //       },
+    //       layout: {
+    //         padding: 0,
+    //       },
+    //     },
+    //   }
+    // );
+    // ordersChart.createChart(this.ordersChartID);
   },
+  created(){
+    this.initDashboard();
+  }
 };
 </script>
 <style></style>

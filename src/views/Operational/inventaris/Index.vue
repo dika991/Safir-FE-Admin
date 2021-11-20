@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "index-transaksi",
+  name: "index-inventaris",
   data() {
     return {};
   },

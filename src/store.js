@@ -3,6 +3,11 @@ import maskapai from "./stores/maskapai";
 import hotel from "./stores/hotels";
 import paket from "./stores/paket";
 import tipe from "./stores/tipe_paket";
+import transaksi from "./stores/transaksi";
+import pemesanan from "./stores/pemesanan";
+import jemaah from "./stores/jemaah";
+import inventaris from "./stores/inventaris";
+import admin from "./stores/admins";
 import { createStore } from "vuex";
 
 const store = createStore({
@@ -12,6 +17,11 @@ const store = createStore({
     hotel,
     paket,
     tipe,
+    transaksi,
+    pemesanan,
+    jemaah,
+    inventaris,
+    admin
   },
   state: {
     token: localStorage.getItem("token"),
@@ -22,6 +32,9 @@ const store = createStore({
     isAuth: (state) => {
       return state.token !== "null" && state.token !== null;
     },
+    user:(state) => {
+      return JSON.parse(state.user);
+    }
   },
   mutations: {
     SET_TOKEN(state, payload) {

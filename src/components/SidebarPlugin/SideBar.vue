@@ -41,7 +41,7 @@
                   <span class="avatar avatar-sm rounded-circle">
                     <img
                       alt="Image placeholder"
-                      src="http://localhost:8080/img/brand/icon/favicon-96x96.png"
+                      src="http://safir-be.test/storage/logo.png"
                     />
                   </span>
                 </div>
@@ -114,7 +114,7 @@ export default {
   props: {
     logo: {
       type: String,
-      default: "http://safir-be.test/img/brand/icon/favicon-96x96.png",
+      default: "http://localhost:8000/storage/logo.png",
       description: "Safir",
     },
     autoClose: {

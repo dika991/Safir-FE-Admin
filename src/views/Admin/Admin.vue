@@ -4,18 +4,18 @@
       <div class="col">
         <div class="card shadow">
           <div class="card-header bg-transparent">
-            <h3 class="mb-0">Daftar Transaksi</h3>
+            <h3 class="mb-0">Daftar Admin</h3>
           </div>
           <div class="card-body">
             <div class="row align-items-center">
               <div class="col-4 mb-3">
                 <div class="mb-3">
-                  <label for="cari-transaksi" class="form-label">Search</label>
+                  <label for="cari-admin" class="form-label">Search</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="cari-transaksi"
-                    placeholder="Cari Nominal Transaksi"
+                    id="cari-pemesanan"
+                    placeholder="Cari Admin"
                     v-model="search"
                   />
                 </div>
@@ -24,8 +24,7 @@
             <div class="">
               <div class="row">
                 <div class="col">
-                  <!-- <table-paket type="light" title="Tabel hotel"></table-paket> -->
-                  <tabel-transaksi></tabel-transaksi>
+                    <table-admin></table-admin>
                 </div>
               </div>
             </div>
@@ -33,28 +32,31 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
-import TabelTransaksi from "./components/TabelTransaksi.vue";
+import { mapActions } from "vuex";
+import TableAdmin from "./components/TabelAdmins.vue";
 export default {
-  name: "Transaksi",
+  name: "Admin",
   components: {
-    TabelTransaksi,
+    TableAdmin,
   },
-  data(){
-      return{
-          search: ""
-      }
+  data() {
+    return {
+      search: "",
+    };
   },
   watch: {
     search() {
-      this.getTransactions(this.search);
+      this.getListAdmin(this.search);
     },
   },
-  methods:{
-    ...mapActions("transaksi", ["getTransactions"]),
-  }
+  computed: {
+  },
+  methods: {
+    ...mapActions("admin", ["getListAdmin"]),
+  },
 };
 </script>

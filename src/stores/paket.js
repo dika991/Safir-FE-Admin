@@ -53,7 +53,7 @@ const mutations = {
   },
 };
 /*
-*/
+ */
 const actions = {
   getPackages({ commit, state }, payload) {
     let search = typeof payload != "undefined" ? payload : "";
