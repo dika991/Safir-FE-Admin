@@ -4,7 +4,7 @@
       class="float-right btn btn-sm btn-success mb-2"
       @click="this.modals.form = true"
     >
-      <i class="fas fa-plus"></i> Tambah Inventaris
+      <i class="fas fa-plus"></i> Tambah Admin
     </button>
     <div class="table-responsive">
       <base-table
@@ -29,10 +29,19 @@
             {{ row.item.email }}
           </td>
           <td>
-            {{ row.item.roles }}
+            <badge v-if="row.item.roles == 0" type="primary">Super Admin</badge>
+            <badge v-else-if="row.item.roles == 1" type="info"
+              >Operasional</badge
+            >
+            <badge v-else-if="row.item.roles == 2" type="success"
+              >Inventaris</badge
+            >
+            <badge v-else-if="row.item.roles == 3" type="warning"
+              >Keuangan</badge
+            >
           </td>
 
-          <td class="text-right">
+          <td class="text-left">
             <div
               class="btn-group btn-group-sm"
               role="group"
@@ -92,7 +101,7 @@
     >
       <form role="form">
         <div class="mb-3">
-          <label for="inputNama" class="form-label">Nama Barang</label>
+          <label for="inputNama" class="form-label">Nama</label>
           <input
             type="text"
             class="form-control"
@@ -101,7 +110,7 @@
           />
         </div>
         <div class="mb-3">
-          <label for="inputJenisBarang" class="form-label">Jenis Barang</label>
+          <label for="inputJenisBarang" class="form-label">Email</label>
           <input
             type="email"
             class="form-control"
@@ -110,8 +119,12 @@
           />
         </div>
         <div class="mb-3">
-          <label for="inputDeskripsi" class="form-label">Role</label>
-          <select class="form-select" aria-label="Default select example">
+          <label for="inputDeskripsi" class="form-label">Posisi</label>
+          <select
+            class="form-select form-control"
+            aria-label="Default select example"
+            v-model="admin.roles"
+          >
             <option selected>Pilih Posisi User</option>
             <option value="1">Operasional</option>
             <option value="2">Inventaris</option>
@@ -119,7 +132,7 @@
           </select>
         </div>
         <div class="text-center">
-          <button class="my-4 btn btn-primary" @click.prevent="newInventaris()">
+          <button class="my-4 btn btn-primary" @click.prevent="newAdmin()">
             Submit
           </button>
         </div>
@@ -160,7 +173,11 @@
         </div>
         <div class="mb-3">
           <label for="inputDeskripsi" class="form-label">Role</label>
-          <select class="form-select" aria-label="Default select example">
+          <select
+            class="form-select form-control"
+            aria-label="Default select example"
+            v-model="admin.roles"
+          >
             <option selected>Pilih Posisi User</option>
             <option value="1">Operasional</option>
             <option value="2">Inventaris</option>
@@ -170,7 +187,7 @@
         <div class="text-center">
           <button
             class="my-4 btn btn-primary"
-            @click.prevent="submitUpdate(inventaris.id)"
+            @click.prevent="submitUpdate(admin.id)"
           >
             Submit
           </button>
@@ -237,20 +254,60 @@ export default {
     },
   },
   methods: {
-    ...mapActions("admin", ["getListAdmins"]),
+    ...mapActions("admin", [
+      "storeAdmins",
+      "getListAdmins",
+      "detailAdmins",
+      "updateAdmins",
+    ]),
     setValue(val) {
       this.page = val;
     },
     getNumber() {
       return (this.iterate += 1);
     },
-    newInventaris() {},
+    newAdmin() {
+      this.isLoading = true;
+      this.storeAdmins()
+        .then((response) => {
+          console.log(response);
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "Berhasil diubah!",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          this.modals.form = false;
+          this.getListAdmins();
+        });
+    },
     openEditModal(id) {
       this.modals.editForm = true;
-      this.detailInvetaris(id);
+      this.detailAdmins(id);
     },
     submitUpdate(id) {
-      console.log(id);
+      this.isLoading = true;
+      this.updateAdmins(id)
+        .then(() => {
+          this.modals.editForm = false;
+          this.getListAdmins();
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.$swal({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "Berhasil diubah!",
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        });
     },
     deleteModal(id) {
       this.$swal({
@@ -265,7 +322,7 @@ export default {
         this.isLoading = true;
         if (result.value) {
           $axios
-            .delete(`/inventaris/${id}`)
+            .delete(`/admins/${id}`)
             .then(() => {
               this.$swal({
                 toast: true,
@@ -278,7 +335,7 @@ export default {
             })
             .finally(() => {
               this.isLoading = false;
-              this.getListInventaris();
+              this.getListAdmins();
             });
         }
       });

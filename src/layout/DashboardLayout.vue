@@ -16,6 +16,7 @@
         <!--Heading-->
         <h6 class="navbar-heading text-muted px-4">Operational</h6>
         <sidebar-item
+          v-if="name.role == 0 || name.role == 1"
           :link="{
             name: 'Paket',
             icon: 'ni ni-collection text-blue',
@@ -23,6 +24,7 @@
           }"
         />
         <sidebar-item
+          v-if="name.role == 0 || name.role == 3"
           :link="{
             name: 'Verifikasi',
             icon: 'ni ni-money-coins text-teal',
@@ -30,6 +32,7 @@
           }"
         />
         <sidebar-item
+          v-if="name.role == 0 || name.role == 1"
           :link="{
             name: 'Pemesanan',
             icon: 'fas fa-book-open text-orange',
@@ -37,14 +40,16 @@
           }"
         />
         <sidebar-item
+          v-if="name.role == 0 || name.role == 2"
           :link="{
             name: 'Inventaris',
             icon: 'ni ni-archive-2 text-red',
             path: '/operasional/inventaris',
           }"
         />
-        <sidebar-item v-if="name.role == 0" 
-        :link="{
+        <sidebar-item
+          v-if="name.role == 0"
+          :link="{
             name: 'Admin',
             icon: 'fas fa-users text-info',
             path: '/operasional/admin',
@@ -93,8 +98,14 @@
           }"
         /> -->
         <!--Heading-->
-        <h6 class="navbar-heading text-muted px-4">Settings</h6>
+        <h6
+          class="navbar-heading text-muted px-4"
+          v-if="name.role == 0 || name.role == 1"
+        >
+          Settings
+        </h6>
         <sidebar-item
+          v-if="name.role == 0 || name.role == 1"
           :link="{
             name: 'Maskapai',
             icon: 'ni ni-send text-green',
@@ -102,6 +113,7 @@
           }"
         />
         <sidebar-item
+          v-if="name.role == 0 || name.role == 1"
           :link="{
             name: 'Hotel',
             icon: 'ni ni-building text-primary',

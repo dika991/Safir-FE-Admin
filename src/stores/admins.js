@@ -66,6 +66,31 @@ const actions = {
         });
     });
   },
+  updateAdmins({ state }, payload) {
+    return new Promise((resolve) => {
+      $axios
+        .put(`/admins/${payload}`, state.admin)
+        .then((response) => {
+          if (response.data.meta.status) {
+            resolve(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    });
+  },
+  storeAdmins({commit,state}){
+    return new Promise((resolve) => {
+      $axios.post(`/admins`, state.admin)
+      .then((response) => {
+        if(response.data.meta.status){
+          commit("CLEAR_ADMINS");
+          resolve(response.data);
+        }
+      })
+    })
+  }
 };
 
 export default {

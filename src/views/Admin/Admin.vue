@@ -50,13 +50,13 @@ export default {
   },
   watch: {
     search() {
-      this.getListAdmin(this.search);
+      this.getListAdmins(this.search);
     },
   },
   computed: {
   },
   methods: {
-    ...mapActions("admin", ["getListAdmin"]),
+    ...mapActions("admin", ["getListAdmins"]),
   },
 };
 </script>
